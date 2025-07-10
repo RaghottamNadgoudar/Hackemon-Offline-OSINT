@@ -17,6 +17,9 @@ function App() {
     const [keys, setKeys] = useState([]);
     const [lastResult, setLastResult] = useState(null);
     const [completedRiddles, setCompletedRiddles] = useState([]);
+    const [remainingAttempts, setRemainingAttempts] = useState(parseInt(import.meta.env.VITE_MAX_ATTEMPTS_PER_RIDDLE) || 3);
+    const [showAttemptsPopup, setShowAttemptsPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState('');
 
     // Get user location
     useEffect(() => {
@@ -73,6 +76,7 @@ function App() {
             setLastResult(null);
             setKeys([]);
             setCompletedRiddles([]);
+            setRemainingAttempts(parseInt(import.meta.env.VITE_MAX_ATTEMPTS_PER_RIDDLE) || 3);
             localStorage.setItem('ctf-token', response.token);
         } catch (error) {
             alert('Failed to start challenge: ' + error.message);
@@ -80,10 +84,7 @@ function App() {
     };
 
     const verifyLocation = async () => {
-        if (!location) {
-            alert('Location not available. Please enable location services.');
-            return;
-        }
+        if (!location || isVerifying) return;
 
         setIsVerifying(true);
         try {
@@ -95,22 +96,38 @@ function App() {
                 })
             });
 
-            setLastResult(response);
-
             if (response.success) {
                 setKeys(prev => [...prev, response.key]);
                 setCompletedRiddles(prev => [...prev, currentRiddle.number]);
+                setRemainingAttempts(parseInt(import.meta.env.VITE_MAX_ATTEMPTS_PER_RIDDLE) || 3);
                 
-                if (response.completed) {
-                    setGameState('completed');
-                } else {
+                if (currentRiddle.number < 5) {
                     setCurrentRiddle(response.nextRiddle);
                     setToken(response.token);
                     localStorage.setItem('ctf-token', response.token);
+                } else {
+                    setGameState('completed');
+                }
+            } else {
+                const newAttempts = remainingAttempts - 1;
+                setRemainingAttempts(newAttempts);
+                setPopupMessage(`Incorrect! ${newAttempts} attempt${newAttempts !== 1 ? 's' : ''} remaining.`);
+                setShowAttemptsPopup(true);
+                
+                if (newAttempts <= 0) {
+                    setTimeout(() => {
+                        resetChallenge();
+                        setPopupMessage('No more attempts! Challenge reset.');
+                    }, 1500);
                 }
             }
+            setLastResult(response);
         } catch (error) {
-            alert('Failed to verify location: ' + error.message);
+            console.error('Error verifying location:', error);
+            setLastResult({
+                success: false,
+                message: 'Error verifying location. Please try again.'
+            });
         } finally {
             setIsVerifying(false);
         }
@@ -128,6 +145,29 @@ function App() {
 
     return (
         <div className="min-h-screen bg-gray-800 text-white relative overflow-hidden">
+            {/* Attempts Popup */}
+            {showAttemptsPopup && (
+                <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+                    <div className="bg-gray-900 border-2 border-yellow-400 rounded-xl p-6 max-w-sm w-full">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-xl font-bold text-yellow-400">Attempts</h3>
+                            <button 
+                                onClick={() => setShowAttemptsPopup(false)}
+                                className="text-gray-400 hover:text-white"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        <p className="text-white mb-4">{popupMessage}</p>
+                        <button
+                            onClick={() => setShowAttemptsPopup(false)}
+                            className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                        >
+                            OK
+                        </button>
+                    </div>
+                </div>
+            )}
             <img src={charizardImage} alt="Charizard" className="absolute top-0 right-0 w-1/3 sm:w-1/4 lg:w-1/5 opacity-30 sm:opacity-50 hidden sm:block" />
             <img src={blastoiseImage} alt="Blastoise" className="absolute bottom-0 left-0 w-1/3 sm:w-1/4 lg:w-1/5 opacity-30 sm:opacity-50 hidden sm:block" />
 
@@ -205,9 +245,20 @@ function App() {
                                 <h3 className="text-lg sm:text-xl font-bold text-yellow-400 text-shadow-custom">
                                     Riddle #{currentRiddle.number} / {currentRiddle.total}
                                 </h3>
-                                <div className="flex items-center space-x-2">
-                                    <Clock className="text-blue-400" size={16} />
-                                    <span className="text-blue-400 text-sm">In Progress</span>
+                                <div className="flex items-center space-x-4">
+                                    <div className="flex items-center space-x-1 bg-gray-800/80 px-3 py-1 rounded-full">
+                                        <span className="text-sm font-medium text-gray-300">Attempts:</span>
+                                        <span className={`text-sm font-bold ${
+                                            remainingAttempts > 2 ? 'text-green-400' : 
+                                            remainingAttempts > 1 ? 'text-yellow-400' : 'text-red-400'
+                                        }`}>
+                                            {remainingAttempts}/{import.meta.env.VITE_MAX_ATTEMPTS_PER_RIDDLE || 3}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <Clock className="text-blue-400" size={16} />
+                                        <span className="text-blue-400 text-sm">In Progress</span>
+                                    </div>
                                 </div>
                             </div>
                             <div className="bg-gray-800/80 rounded-lg p-4 mb-4 border border-gray-700">
