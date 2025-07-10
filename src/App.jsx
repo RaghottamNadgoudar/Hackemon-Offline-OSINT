@@ -135,9 +135,6 @@ function App() {
                 {/* Header */}
                 <div className="text-center mb-6 sm:mb-8 flex items-center justify-center flex-col">
                     <img src={hackemonLogo} alt="Hackemon Logo" className="h-20 sm:h-24 md:h-32 mb-4"/>
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-yellow-400 text-shadow-custom">
-                        HACKEMON
-                    </h1>
                     <p className="text-base sm:text-lg text-gray-300 mt-2">
                         Gotta Catch 'Em All... Flags!
                     </p>
