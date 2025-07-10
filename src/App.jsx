@@ -128,34 +128,34 @@ function App() {
 
     return (
         <div className="min-h-screen bg-gray-800 text-white relative overflow-hidden">
-            <img src={charizardImage} alt="Charizard" className="absolute top-0 right-0 w-1/4 lg:w-1/5 opacity-50" />
-            <img src={blastoiseImage} alt="Blastoise" className="absolute bottom-0 left-0 w-1/4 lg:w-1/5 opacity-50" />
+            <img src={charizardImage} alt="Charizard" className="absolute top-0 right-0 w-1/3 sm:w-1/4 lg:w-1/5 opacity-30 sm:opacity-50 hidden sm:block" />
+            <img src={blastoiseImage} alt="Blastoise" className="absolute bottom-0 left-0 w-1/3 sm:w-1/4 lg:w-1/5 opacity-30 sm:opacity-50 hidden sm:block" />
 
-            <div className="container mx-auto px-4 py-8 relative z-10">
+            <div className="container mx-auto px-4 py-6 sm:py-8 relative z-10">
                 {/* Header */}
-                <div className="text-center mb-8 flex items-center justify-center flex-col">
-                    <img src={hackemonLogo} alt="Hackemon Logo" className="h-24 md:h-32 mb-4"/>
-                    <h1 className="text-4xl md:text-5xl font-bold text-yellow-400 text-shadow-custom">
+                <div className="text-center mb-6 sm:mb-8 flex items-center justify-center flex-col">
+                    <img src={hackemonLogo} alt="Hackemon Logo" className="h-20 sm:h-24 md:h-32 mb-4"/>
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-yellow-400 text-shadow-custom">
                         HACKEMON
                     </h1>
-                    <p className="text-lg text-gray-300 mt-2">
+                    <p className="text-base sm:text-lg text-gray-300 mt-2">
                         Gotta Catch 'Em All... Flags!
                     </p>
                 </div>
 
                 {/* Location Status */}
-                <div className="bg-gray-900/50 backdrop-blur-md rounded-xl p-6 mb-8 border-2 border-yellow-400/50">
+                <div className="bg-gray-900/50 backdrop-blur-md rounded-xl p-4 sm:p-6 mb-6 sm:mb-8 border-2 border-yellow-400/50">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
                             <MapPin className="text-red-500" size={24} />
                             <div>
-                                <p className="text-white font-semibold">Poké-Tracker Status</p>
+                                <p className="text-white font-semibold text-sm sm:text-base">Poké-Tracker Status</p>
                                 {location ? (
-                                    <p className="text-green-400 text-sm">
+                                    <p className="text-green-400 text-xs sm:text-sm">
                                         ✅ Online (±{Math.round(location.accuracy)}m accuracy)
                                     </p>
                                 ) : (
-                                    <p className="text-red-400 text-sm">
+                                    <p className="text-red-400 text-xs sm:text-sm">
                                         ❌ {locationError || 'Awaiting signal...'}
                                     </p>
                                 )}
@@ -163,7 +163,7 @@ function App() {
                         </div>
                         {location && (
                             <div className="text-right">
-                                <p className="text-gray-300 text-sm">Your Coordinates</p>
+                                <p className="text-gray-300 text-xs sm:text-sm">Your Coordinates</p>
                                 <p className="text-white text-xs font-mono">
                                     {location.latitude.toFixed(6)}, {location.longitude.toFixed(6)}
                                 </p>
@@ -174,19 +174,19 @@ function App() {
 
                 {/* Game Content */}
                 {gameState === 'idle' && (
-                    <div className="bg-gray-900/50 backdrop-blur-md rounded-xl p-8 text-center border-2 border-yellow-400/50">
-                        <img src={pikachuImage} alt="Pikachu" className="mx-auto mb-4 h-32" />
-                        <h2 className="text-2xl font-bold text-yellow-400 mb-4 text-shadow-custom">
+                    <div className="bg-gray-900/50 backdrop-blur-md rounded-xl p-6 sm:p-8 text-center border-2 border-yellow-400/50">
+                        <img src={pikachuImage} alt="Pikachu" className="mx-auto mb-4 h-28 sm:h-32" />
+                        <h2 className="text-xl sm:text-2xl font-bold text-yellow-400 mb-4 text-shadow-custom">
                             Welcome, Trainer!
                         </h2>
-                        <p className="text-gray-300 mb-6">
+                        <p className="text-gray-300 mb-6 text-sm sm:text-base">
                             Your OSINT journey is about to begin. 
                             Use your skills to find locations and collect all the Gym Badges (keys).
                         </p>
-                        <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4 mb-6">
+                        <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3 sm:p-4 mb-6">
                             <div className="flex items-center justify-center space-x-2">
                                 <AlertCircle className="text-red-400" size={20} />
-                                <p className="text-red-400 font-medium">
+                                <p className="text-red-400 font-medium text-sm sm:text-base">
                                     Poké-Tracker requires location access!
                                 </p>
                             </div>
@@ -194,7 +194,7 @@ function App() {
                         <button
                             onClick={startChallenge}
                             disabled={!location}
-                            className={`px-8 py-3 rounded-lg font-semibold transition-all text-lg border-b-4 ${location ? 'bg-red-600 hover:bg-red-700 text-white border-red-800 hover:border-red-900 shadow-lg hover:shadow-xl' : 'bg-gray-600 text-gray-400 cursor-not-allowed border-gray-700'}`}
+                            className={`px-6 sm:px-8 py-3 rounded-lg font-semibold transition-all text-base sm:text-lg border-b-4 ${location ? 'bg-red-600 hover:bg-red-700 text-white border-red-800 hover:border-red-900 shadow-lg hover:shadow-xl' : 'bg-gray-600 text-gray-400 cursor-not-allowed border-gray-700'}`}
                         >
                             {location ? 'Start Your Adventure!' : 'Waiting for Signal...'}
                         </button>
@@ -203,9 +203,9 @@ function App() {
 
                 {gameState === 'active' && currentRiddle && (
                     <div className="space-y-6">
-                        <div className="bg-gray-900/50 backdrop-blur-md rounded-xl p-6 border-2 border-yellow-400/50">
+                        <div className="bg-gray-900/50 backdrop-blur-md rounded-xl p-4 sm:p-6 border-2 border-yellow-400/50">
                             <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-xl font-bold text-yellow-400 text-shadow-custom">
+                                <h3 className="text-lg sm:text-xl font-bold text-yellow-400 text-shadow-custom">
                                     Riddle #{currentRiddle.number} / {currentRiddle.total}
                                 </h3>
                                 <div className="flex items-center space-x-2">
@@ -214,21 +214,21 @@ function App() {
                                 </div>
                             </div>
                             <div className="bg-gray-800/80 rounded-lg p-4 mb-4 border border-gray-700">
-                                <p className="text-gray-100 text-lg leading-relaxed">
+                                <p className="text-gray-100 text-base sm:text-lg leading-relaxed">
                                     {currentRiddle.text}
                                 </p>
                             </div>
                             <button
                                 onClick={verifyLocation}
                                 disabled={isVerifying || !location}
-                                className={`w-full py-3 rounded-lg font-semibold transition-all text-lg border-b-4 ${isVerifying ? 'bg-yellow-500 text-white border-yellow-700' : location ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-800 hover:border-blue-900 shadow-lg hover:shadow-xl' : 'bg-gray-600 text-gray-400 cursor-not-allowed border-gray-700'}`}
+                                className={`w-full py-3 rounded-lg font-semibold transition-all text-base sm:text-lg border-b-4 ${isVerifying ? 'bg-yellow-500 text-white border-yellow-700' : location ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-800 hover:border-blue-900 shadow-lg hover:shadow-xl' : 'bg-gray-600 text-gray-400 cursor-not-allowed border-gray-700'}`}
                             >
                                 {isVerifying ? 'Scanning Area...' : "I'm at the Location!"}
                             </button>
                         </div>
 
                         {lastResult && (
-                            <div className={`bg-gray-900/50 backdrop-blur-md rounded-xl p-6 border-l-4 ${ 
+                            <div className={`bg-gray-900/50 backdrop-blur-md rounded-xl p-4 sm:p-6 border-l-4 ${ 
                                 lastResult.success ? 'border-green-500' : 'border-red-500'
                             }`}>
                                 <div className="flex items-center space-x-3 mb-2">
@@ -237,34 +237,34 @@ function App() {
                                     ) : (
                                         <Lock className="text-red-400" size={20} />
                                     )}
-                                    <p className={`font-semibold ${ 
+                                    <p className={`font-semibold text-sm sm:text-base ${ 
                                         lastResult.success ? 'text-green-400' : 'text-red-400'
                                     }`}>
                                         {lastResult.success ? 'A Match!' : 'Not quite...'}
                                     </p>
                                 </div>
-                                <p className="text-gray-300 text-sm">
+                                <p className="text-gray-300 text-xs sm:text-sm">
                                     {lastResult.message || 
                                      `Distance: ${lastResult.distance}m | Attempts left: ${lastResult.attemptsLeft}`}
                                 </p>
                             </div>
                         )}
 
-                        <div className="bg-gray-900/50 backdrop-blur-md rounded-xl p-6 border-2 border-yellow-400/50">
-                            <h4 className="text-lg font-semibold text-yellow-400 mb-4 text-shadow-custom">
+                        <div className="bg-gray-900/50 backdrop-blur-md rounded-xl p-4 sm:p-6 border-2 border-yellow-400/50">
+                            <h4 className="text-base sm:text-lg font-semibold text-yellow-400 mb-4 text-shadow-custom">
                                 Gym Badges ({keys.length})
                             </h4>
                             <div className="space-y-2">
                                 {keys.length > 0 ? (
                                     keys.map((key, index) => (
                                         <div key={index} className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
-                                            <p className="text-green-400 font-mono text-sm">
+                                            <p className="text-green-400 font-mono text-xs sm:text-sm">
                                                 Badge #{index + 1}: {key}
                                             </p>
                                         </div>
                                     ))
                                 ) : (
-                                    <p className="text-gray-400 text-sm">No badges collected yet, trainer!</p>
+                                    <p className="text-gray-400 text-sm sm:text-base">No badges collected yet, trainer!</p>
                                 )}
                             </div>
                         </div>
@@ -272,22 +272,22 @@ function App() {
                 )}
 
                 {gameState === 'completed' && (
-                    <div className="bg-gray-900/50 backdrop-blur-md rounded-xl p-8 text-center border-2 border-yellow-400/50">
-                        <img src={ashImage} alt="Ash Ketchum" className="mx-auto mb-4 h-40" />
-                        <h2 className="text-3xl font-bold text-yellow-400 mb-4 text-shadow-custom">
+                    <div className="bg-gray-900/50 backdrop-blur-md rounded-xl p-6 sm:p-8 text-center border-2 border-yellow-400/50">
+                        <img src={ashImage} alt="Ash Ketchum" className="mx-auto mb-4 h-32 sm:h-40" />
+                        <h2 className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-4 text-shadow-custom">
                             You're a Pokémon Master!
                         </h2>
-                        <p className="text-gray-300 mb-6">
+                        <p className="text-gray-300 mb-6 text-sm sm:text-base">
                             Congratulations! You've collected all the badges and completed the Hackemon challenge.
                         </p>
                         <div className="bg-green-500/20 border border-green-500/50 rounded-lg p-4 mb-6">
-                            <p className="text-green-400 font-semibold">
+                            <p className="text-green-400 font-semibold text-base sm:text-lg">
                                 Total Badges Collected: {keys.length}
                             </p>
                         </div>
                         <button
                             onClick={resetChallenge}
-                            className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all text-lg border-b-4 border-red-800 hover:border-red-900 shadow-lg hover:shadow-xl"
+                            className="px-6 sm:px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all text-base sm:text-lg border-b-4 border-red-800 hover:border-red-900 shadow-lg hover:shadow-xl"
                         >
                             Start a New Journey
                         </button>
