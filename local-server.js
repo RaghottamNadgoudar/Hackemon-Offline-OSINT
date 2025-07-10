@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import {
   getRiddleData,
   setSession,
@@ -10,17 +12,20 @@ import {
   calculateDistance,
   hashKey,
 } from "./lib/utils.js";
-import crypto from "crypto";
 
 dotenv.config();
 
 const app = express();
-const PORT = 3001;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// PORT should come from environment
+const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
 
-// Import API logic from your api files
+// Your APIs
 app.post("/api/start-challenge", async (req, res) => {
   const { default: handler } = await import("./api/start-challenge.js");
   return handler(req, res);
@@ -36,7 +41,13 @@ app.get("/api/challenge-status", async (req, res) => {
   return handler(req, res);
 });
 
+// Serve frontend static files from Vite build (dist/)
+app.use(express.static(path.join(__dirname, "dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
 app.listen(PORT, () => {
-  console.log(`🚀 Local API Server running on http://localhost:${PORT}`);
-  console.log(`🌐 Frontend will be available on http://localhost:3000`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
