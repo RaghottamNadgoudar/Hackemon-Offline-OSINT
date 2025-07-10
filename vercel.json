@@ -20,15 +20,4 @@
       "dest": "/index.html"
     }
   ],
-  "functions": {
-    "api/start-challenge.js": {
-      "maxDuration": 30
-    },
-    "api/verify-location.js": {
-      "maxDuration": 30
-    },
-    "api/challenge-status.js": {
-      "maxDuration": 30
-    }
-  }
-}
+
