@@ -241,23 +241,23 @@ function App() {
                 {gameState === 'active' && currentRiddle && (
                     <div className="space-y-6">
                         <div className="bg-gray-900/50 backdrop-blur-md rounded-xl p-4 sm:p-6 border-2 border-yellow-400/50">
-                            <div className="flex items-center justify-between mb-4">
+                            <div className="space-y-2 mb-4">
                                 <h3 className="text-lg sm:text-xl font-bold text-yellow-400 text-shadow-custom">
                                     Riddle #{currentRiddle.number} / {currentRiddle.total}
                                 </h3>
-                                <div className="flex items-center space-x-4">
-                                    <div className="flex items-center space-x-1 bg-gray-800/80 px-3 py-1 rounded-full">
-                                        <span className="text-sm font-medium text-gray-300">Attempts:</span>
-                                        <span className={`text-sm font-bold ${
+                                <div className="flex flex-wrap items-center gap-3">
+                                    <div className="flex items-center space-x-1 bg-gray-800/80 px-3 py-1.5 rounded-full">
+                                        <span className="text-xs sm:text-sm font-medium text-gray-300 whitespace-nowrap">Attempts:</span>
+                                        <span className={`text-xs sm:text-sm font-bold ${
                                             remainingAttempts > 2 ? 'text-green-400' : 
                                             remainingAttempts > 1 ? 'text-yellow-400' : 'text-red-400'
-                                        }`}>
+                                        } whitespace-nowrap`}>
                                             {remainingAttempts}/{import.meta.env.VITE_MAX_ATTEMPTS_PER_RIDDLE || 3}
                                         </span>
                                     </div>
-                                    <div className="flex items-center space-x-2">
-                                        <Clock className="text-blue-400" size={16} />
-                                        <span className="text-blue-400 text-sm">In Progress</span>
+                                    <div className="flex items-center space-x-2 bg-gray-800/80 px-3 py-1.5 rounded-full">
+                                        <Clock className="text-blue-400 flex-shrink-0" size={14} />
+                                        <span className="text-blue-400 text-xs sm:text-sm whitespace-nowrap">In Progress</span>
                                     </div>
                                 </div>
                             </div>
