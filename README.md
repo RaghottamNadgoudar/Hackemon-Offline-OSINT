@@ -72,9 +72,6 @@ Hackemon is a Pokémon-themed Capture The Flag (CTF) challenge designed to test 
 - [React Icons](https://react-icons.github.io/react-icons/) - Icons
 - [Express](https://expressjs.com/) - Backend server
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
